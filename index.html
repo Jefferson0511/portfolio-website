@@ -37,7 +37,7 @@ nav .nav-links a:hover{color:var(--text)}nav .nav-links a:hover::after{width:100
 .hero-slides{position:absolute;inset:0}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease,transform 8s linear;transform:scale(1.06)}
 .hero-slide.active{opacity:1;transform:scale(1)}
-.hero-slide img{width:100%;height:100%;object-fit:cover;filter:brightness(.3) saturate(.85)}
+.hero-slide img{width:100%;height:100%;object-fit:cover;object-position:top;filter:brightness(.3) saturate(.85)}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(11,18,33,.4) 0%,rgba(11,18,33,.15) 40%,rgba(11,18,33,.9) 100%)}
 .hero-content{position:relative;z-index:2;text-align:center;padding:0 24px}
 .hero-eyebrow{font-size:.65rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem}
@@ -89,19 +89,34 @@ section{padding:5rem 2.5rem;max-width:100%;margin:0 auto}
 .lightbox .nav-arrow:hover{color:var(--white);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}
 .lightbox .nav-arrow.prev{left:1.5rem}.lightbox .nav-arrow.next{right:1.5rem}
 
-.about-strip{padding:6rem 3rem;max-width:680px;margin:0 auto;text-align:center;position:relative}
+.about-strip{padding:6rem 3rem;max-width:900px;margin:0 auto;position:relative}
 .about-strip::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:1px;background:var(--accent);opacity:.3}
-.about-strip h2{font-family:var(--font-display);font-size:1.8rem;font-weight:400;margin-bottom:1.5rem}
-.about-strip p{font-size:.92rem;color:var(--text-muted);line-height:1.9;margin-bottom:2rem;font-weight:300}
+.about-inner{display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:center}
+.about-portrait{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.about-portrait img{display:block;width:100%;height:auto;filter:brightness(.9) saturate(.95)}
+.about-text{text-align:left}
+.about-text h2{font-family:var(--font-display);font-size:1.8rem;font-weight:400;margin-bottom:1.5rem}
+.about-text p{font-size:.92rem;color:var(--text-muted);line-height:1.9;margin-bottom:2rem;font-weight:300}
 .about-strip .contact-link{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);text-decoration:none;padding:.75rem 1.75rem;border:1px solid rgba(212,175,94,.25);border-radius:100px;transition:all .4s var(--ease);font-weight:400}
 .about-strip .contact-link:hover{background:rgba(212,175,94,.08);border-color:rgba(212,175,94,.4);box-shadow:0 4px 20px rgba(212,175,94,.1)}
 .about-strip .contact-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .3s var(--ease-spring)}
 .about-strip .contact-link:hover svg{transform:translateX(3px)}
 footer{padding:2.5rem 3rem;text-align:center;border-top:1px solid var(--border);font-size:.62rem;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
 
-@media(max-width:900px){.photo-card.portrait,.photo-card.square{flex:0 0 calc(50% - var(--gap)/2)}}
-@media(max-width:768px){nav{padding:1rem 1.5rem}nav .nav-links{gap:1.5rem}nav .nav-links a{font-size:.65rem}.hero-name{font-size:clamp(2.2rem,10vw,3.5rem)}section{padding:3.5rem 1.25rem}.about-strip{padding:4rem 1.5rem}.photo-grid{gap:.6rem}}
-@media(max-width:550px){.photo-card.portrait,.photo-card.square{flex:0 0 100%}nav .nav-links{gap:1rem}.lightbox .nav-arrow{width:38px;height:38px;font-size:.9rem}}
+/* MASONRY GRID — natural flow layout */
+.masonry-grid{columns:3;column-gap:var(--gap);max-width:1200px;margin-left:auto;margin-right:auto}
+.masonry-card{position:relative;overflow:hidden;border-radius:var(--radius);cursor:pointer;background:var(--card);border:1px solid var(--border);margin-bottom:var(--gap);break-inside:avoid;transition:border-color .5s var(--ease),box-shadow .5s var(--ease);opacity:0;transform:translateY(35px)}
+.masonry-card.visible{opacity:1;transform:translateY(0);transition:opacity .7s var(--ease),transform .7s var(--ease),border-color .5s var(--ease),box-shadow .5s var(--ease)}
+.masonry-card:hover{border-color:var(--border-hover);box-shadow:0 8px 40px rgba(0,0,0,.25),0 0 0 1px var(--border-hover)}
+.masonry-card img{display:block;width:100%;height:auto;transition:transform .8s var(--ease),filter .6s var(--ease);filter:brightness(.85) contrast(1.05)}
+.masonry-card:hover img{transform:scale(1.04);filter:brightness(1) contrast(1.05)}
+.masonry-card .view-icon{position:absolute;top:.75rem;right:.75rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s var(--ease-spring)}
+.masonry-card:hover .view-icon{opacity:1;transform:translateY(0)}
+.masonry-card .view-icon svg{width:14px;height:14px;stroke:var(--white);fill:none;stroke-width:1.5}
+
+@media(max-width:900px){.photo-card.portrait,.photo-card.square{flex:0 0 calc(50% - var(--gap)/2)}.masonry-grid{columns:2}}
+@media(max-width:768px){nav{padding:1rem 1.5rem}nav .nav-links{gap:1.5rem}nav .nav-links a{font-size:.65rem}.hero-name{font-size:clamp(2.2rem,10vw,3.5rem)}section{padding:3.5rem 1.25rem}.about-strip{padding:4rem 1.5rem}.about-inner{grid-template-columns:1fr;text-align:center}.about-portrait{max-width:220px;margin:0 auto}.about-text{text-align:center}.photo-grid{gap:.6rem}}
+@media(max-width:550px){.photo-card.portrait,.photo-card.square{flex:0 0 100%}.masonry-grid{columns:1}nav .nav-links{gap:1rem}.lightbox .nav-arrow{width:38px;height:38px;font-size:.9rem}}
 
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -112,30 +127,30 @@ footer{padding:2.5rem 3rem;text-align:center;border-top:1px solid var(--border);
 
 <nav id="mainNav">
     <div class="logo">Jefferson<span>.</span></div>
-    <ul class="nav-links"><li><a href="#photography">Photography</a></li><li><a href="#designs">Designs</a></li><li><a href="#about">About</a></li></ul>
+    <ul class="nav-links"><li><a href="#photography">Photography</a></li><li><a href="#events">Events</a></li><li><a href="#designs">Designs</a></li><li><a href="#about">About</a></li></ul>
 </nav>
 
 <section class="hero" id="home">
     <div class="hero-slides" id="heroSlides">
         <div class="hero-slide active"><img src="photos/1.jpg" alt=""></div>
-        <div class="hero-slide"><img src="photos/20.jpg" alt=""></div>
-        <div class="hero-slide"><img src="photos/17.jpg" alt=""></div>
-        <div class="hero-slide"><img src="photos/11.jpg" alt=""></div>
+        <div class="hero-slide"><img src="photos/9.jpg" alt=""></div>
+        <div class="hero-slide"><img src="photos/333.jpg" alt=""></div>
+        <div class="hero-slide"><img src="photos/555.jpg" alt=""></div>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="hero-eyebrow hero-enter hero-enter-1">Visual Portfolio</div>
         <h1 class="hero-name hero-enter hero-enter-2">Jefferson Kingston</h1>
-        <p class="hero-tag hero-enter hero-enter-3">Event photography and visual design — capturing the energy of conferences, services, and community gatherings.</p>
+        <p class="hero-tag hero-enter hero-enter-3">Photographer & Visual Designer</p>
     </div>
     <div class="hero-scroll hero-enter hero-enter-4"><span>Scroll</span><div class="arrow"></div></div>
 </section>
 
 <section id="photography">
-    <div class="section-header reveal"><h2>Photography</h2><span class="count">Event &amp; Documentary</span></div>
+    <div class="section-header reveal"><h2>Photography</h2><span class="count">Architecture &amp; Aesthetics</span></div>
     <div class="photo-grid" id="photoGrid">
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/1.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/2.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/2.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/3.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/4.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/5.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
@@ -143,31 +158,60 @@ footer{padding:2.5rem 3rem;text-align:center;border-top:1px solid var(--border);
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/7.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/8.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/9.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/10.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/11.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/12.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/13.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/14.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
-        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/15.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/10.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/11.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/12.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/13.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/14.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/15.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/16.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/17.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/18.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/19.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
         <div class="photo-card" onclick="openLightbox(this)"><img src="photos/20.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/21.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/22.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/23.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/24.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="photo-card" onclick="openLightbox(this)"><img src="photos/25.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    </div>
+</section>
+
+<section id="events">
+    <div class="section-header reveal"><h2>Event Coverage</h2><span class="count">Conferences &amp; Community</span></div>
+    <div class="masonry-grid" id="eventGrid">
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="event/1.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="event/2.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="event/3.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="event/4.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="event/5.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="event/6.jpeg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
     </div>
 </section>
 
 <section id="designs" style="background:var(--bg2)">
     <div class="section-header reveal"><h2>Graphic Design</h2><span class="count">Posters &amp; Visual Content</span></div>
-    <div class="photo-grid" id="designGrid">
-        <div class="photo-card placeholder"><div class="placeholder-text"><span class="num">&mdash;</span><span>Coming soon</span></div></div>
+    <div class="masonry-grid" id="designGrid">
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/1.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/2.png" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/3.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/4.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/5.png" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/6.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/7.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+        <div class="masonry-card" onclick="openLightbox(this)"><img src="designs/8.jpg" alt="" loading="lazy"><div class="view-icon"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
     </div>
 </section>
 
 <div class="about-strip reveal" id="about">
-    <h2>About</h2>
-    <p>I'm Jefferson Kingston, a Computer Science graduate student at Northeastern University with a background in event coordination, media production, and community leadership. I've photographed and produced content for youth conferences, church services, and community events — from capturing candid moments to designing promotional materials and managing live production workflows.</p>
-    <a href="mailto:kingston.je@northeastern.edu" class="contact-link">Get in touch <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <div class="about-inner">
+        <div class="about-portrait"><img src="profile.jpg" alt="Jefferson Kingston"></div>
+        <div class="about-text">
+            <h2>About</h2>
+            <p>I'm Jefferson Kingston, a Computer Science graduate student at Northeastern University with a background in event coordination, media production, and community leadership. I've photographed and produced content for youth conferences and community events, from capturing candid moments to designing promotional materials and managing live production workflows.</p>
+            <a href="mailto:kingston.je@northeastern.edu" class="contact-link">Get in touch <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+    </div>
 </div>
 
 <footer>&copy; 2026 Jefferson Kingston</footer>
@@ -191,12 +235,13 @@ window.addEventListener('scroll',function(){var y=window.scrollY;if(y<window.inn
 
 document.querySelectorAll('.photo-card:not(.placeholder)').forEach(function(card){var img=card.querySelector('img');function classify(){var r=img.naturalWidth/img.naturalHeight;if(r>1.15)card.classList.add('landscape');else if(r<.85)card.classList.add('portrait');else card.classList.add('square');card.classList.add('classified')}if(img.complete&&img.naturalWidth>0)classify();else{img.addEventListener('load',classify);img.addEventListener('error',function(){card.style.display='none'})}});
 
-/* Scroll reveal for sections AND photo cards with stagger */
+document.querySelectorAll('.masonry-card').forEach(function(card){var img=card.querySelector('img');img.addEventListener('error',function(){card.style.display='none'})});
+
 var scrollObs=new IntersectionObserver(function(entries){var delay=0;entries.forEach(function(e){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},delay);delay+=120;scrollObs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.reveal,.photo-card:not(.placeholder)').forEach(function(el){scrollObs.observe(el)});
+document.querySelectorAll('.reveal,.photo-card:not(.placeholder),.masonry-card').forEach(function(el){scrollObs.observe(el)});
 
 var currentIndex=0,photoCards=[];
-function getPhotoCards(){return Array.from(document.querySelectorAll('.photo-card:not(.placeholder)'))}
+function getPhotoCards(){return Array.from(document.querySelectorAll('.photo-card:not(.placeholder),.masonry-card'))}
 function openLightbox(card){photoCards=getPhotoCards();currentIndex=photoCards.indexOf(card);showSlide(false);var lb=document.getElementById('lightbox');lb.classList.add('active');requestAnimationFrame(function(){requestAnimationFrame(function(){lb.classList.add('show')})});document.body.style.overflow='hidden'}
 function closeLightbox(){var lb=document.getElementById('lightbox');lb.classList.remove('show');setTimeout(function(){lb.classList.remove('active');document.body.style.overflow=''},400)}
 function showSlide(a){var c=photoCards[currentIndex];var i=c.querySelector('img');var l=document.getElementById('lightboxImg');if(a){l.classList.add('switching');setTimeout(function(){l.src=i.src;l.classList.remove('switching')},250)}else{l.src=i.src}document.getElementById('lbCounter').textContent=String(currentIndex+1).padStart(2,'0')+' / '+String(photoCards.length).padStart(2,'0')}
